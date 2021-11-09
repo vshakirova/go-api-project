@@ -13,7 +13,7 @@ type user struct {
 }
 
 var users = map[string]user{
-	"1": { Name: "John Doe", Address: "N street", Job: "worker"},
+	"1": {Name: "John Doe", Address: "N street", Job: "worker"},
 	"2": {Name: "Steff Mur", Address: "J street", Job: "stuff"},
 }
 
@@ -34,7 +34,7 @@ func getUsers(ctx *gin.Context) {
 // @Success 200 {array} user
 // @Router /users/{id} [get]
 // @Security BasicAuth
-func getUser(ctx *gin.Context ) {
+func getUser(ctx *gin.Context) {
 	id := ctx.Param("id")
 
 	for key, user := range users {
@@ -62,7 +62,7 @@ func updateUser(ctx *gin.Context) {
 	if err := ctx.BindJSON(&newUser); err != nil {
 		return
 	}
-	if _, ok := users[id]; ok!=false {
+	if _, ok := users[id]; ok != false {
 		users[id] = newUser
 		return
 	}
@@ -80,7 +80,7 @@ func updateUser(ctx *gin.Context) {
 func deleteUser(ctx *gin.Context) {
 	id := ctx.Param("id")
 
-	if _, ok := users[id]; ok!=false {
+	if _, ok := users[id]; ok != false {
 		delete(users, id)
 		return
 	}

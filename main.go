@@ -4,18 +4,17 @@ import (
 	"encoding/base64"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"net/http"
 	swaggerFiles "github.com/swaggo/files"
 	"github.com/swaggo/gin-swagger"
+	"net/http"
 	"strings"
 
 	_ "github.com/vshakirova/go-api-project/docs"
 )
 
-// @title Blueprint Swagger API
+// @title Project Swagger API
 // @version 1.0
-// @description Swagger API for Golang Project .
-// @termsOfService http://swagger.io/terms/
+// @description Swagger API for Golang Project
 
 // @BasePath /api/v1
 // @securityDefinitions.basic
@@ -24,8 +23,8 @@ import (
 
 // @Security BasicAuth
 
-
 var loginPassword = "mirantis:mirantis"
+
 func main() {
 	router := gin.Default()
 
@@ -66,7 +65,7 @@ func auth() gin.HandlerFunc {
 	}
 }
 
-func parseBasicAuth(auth string) string{
+func parseBasicAuth(auth string) string {
 	str := strings.SplitN(auth, " ", 2)
 	if len(str) != 2 {
 		fmt.Println("failed to parse authentication string")
