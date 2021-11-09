@@ -2,17 +2,12 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/vshakirova/go-api-project/models"
 	"net/http"
 	"strconv"
 )
 
-type user struct {
-	Name    string `json:"name"`
-	Address string `json:"address"`
-	Job     string `json:"job"`
-}
-
-var users = map[string]user{
+var users = map[string]models.User{
 	"1": {Name: "John Doe", Address: "N street", Job: "worker"},
 	"2": {Name: "Steff Mur", Address: "J street", Job: "stuff"},
 }
@@ -20,7 +15,7 @@ var users = map[string]user{
 // getUsers godoc
 // @Summary Retrieves all users
 // @Produce json
-// @Success 200 {array} user
+// @Success 200 {array} models.User
 // @Router /users [get]
 // @Security BasicAuth
 func getUsers(ctx *gin.Context) {
@@ -31,7 +26,7 @@ func getUsers(ctx *gin.Context) {
 // @Summary Retrieves user based on given ID
 // @Produce json
 // @Param id path integer true "User ID"
-// @Success 200 {array} user
+// @Success 200 {array} models.User
 // @Router /users/{id} [get]
 // @Security BasicAuth
 func getUser(ctx *gin.Context) {
@@ -43,7 +38,7 @@ func getUser(ctx *gin.Context) {
 			return
 		}
 	}
-	ctx.IndentedJSON(http.StatusNotFound, gin.H{"message": "user not found"})
+	ctx.IndentedJSON(http.StatusNotFound, gin.H{"error": "user not found"})
 }
 
 // updateUser godoc
@@ -51,12 +46,12 @@ func getUser(ctx *gin.Context) {
 // @Produce json
 // @Accept json
 // @Param id path integer true "User ID"
-// @Param data body user true "User Info"
-// @Success 200 {object} user
+// @Param data body models.User true "User Info"
+// @Success 200 {object} models.User
 // @Router /users/{id} [put]
 // @Security BasicAuth
 func updateUser(ctx *gin.Context) {
-	var newUser user
+	var newUser models.User
 	id := ctx.Param("id")
 
 	if err := ctx.BindJSON(&newUser); err != nil {
@@ -67,7 +62,7 @@ func updateUser(ctx *gin.Context) {
 		return
 	}
 
-	ctx.IndentedJSON(http.StatusNotFound, gin.H{"message": "user not found"})
+	ctx.IndentedJSON(http.StatusNotFound, gin.H{"error": "user not found"})
 }
 
 // deleteUser godoc
@@ -75,7 +70,7 @@ func updateUser(ctx *gin.Context) {
 // @Produce json
 // @Param id path integer true "User ID"
 // @Success 200
-// @Router /users [delete]
+// @Router /users/{id} [delete]
 // @Security BasicAuth
 func deleteUser(ctx *gin.Context) {
 	id := ctx.Param("id")
@@ -84,19 +79,19 @@ func deleteUser(ctx *gin.Context) {
 		delete(users, id)
 		return
 	}
-	ctx.IndentedJSON(http.StatusNotFound, gin.H{"message": "user not found"})
+	ctx.IndentedJSON(http.StatusNotFound, gin.H{"error": "user not found"})
 }
 
 // createUser godoc
 // @Summary Creates user based on user info
 // @Produce json
 // @Accept json
-// @Param data body user true "User Info"
-// @Success 200 {object} user
+// @Param data body models.User true "User Info"
+// @Success 201 {object} models.User
 // @Router /users [post]
 // @Security BasicAuth
 func createUser(ctx *gin.Context) {
-	var newUser user
+	var newUser models.User
 
 	if err := ctx.BindJSON(&newUser); err != nil {
 		return
