@@ -1,0 +1,121 @@
+basePath: /api/v1
+definitions:
+  main.user:
+    properties:
+      address:
+        type: string
+      job:
+        type: string
+      name:
+        type: string
+    type: object
+info:
+  contact:
+    email: aaa
+    name: API Support
+  description: Swagger API for Golang Project .
+  license:
+    name: MIT
+    url: https://github.com/MartinHeinz/go-project-blueprint/blob/master/LICENSE
+  termsOfService: http://swagger.io/terms/
+  title: Blueprint Swagger API
+  version: "1.0"
+paths:
+  /users:
+    delete:
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      security:
+      - BasicAuth: []
+      summary: Delete user by ID
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/main.user'
+            type: array
+      security:
+      - BasicAuth: []
+      summary: Retrieves all users
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: User Info
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/main.user'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.user'
+      security:
+      - BasicAuth: []
+      summary: Creates user based on user info
+  /users/{id}:
+    get:
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/main.user'
+            type: array
+      security:
+      - BasicAuth: []
+      summary: Retrieves user based on given ID
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User Info
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/main.user'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.user'
+      security:
+      - BasicAuth: []
+      summary: Update user info based on given ID
+securityDefinitions:
+  "":
+    type: basic
+swagger: "2.0"
